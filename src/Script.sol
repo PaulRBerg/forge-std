@@ -10,7 +10,7 @@ abstract contract Script is Cheats {
     
     /// @dev Compute the address a contract will be deployed at for a given deployer address and nonce
     /// @notice adapated from Solmate implementation (https://github.com/Rari-Capital/solmate/blob/main/src/utils/LibRLP.sol)
-    function computeCreateAddress(address deployer, uint256 nonce) internal pure returns (address) {
+    function computeCreateAddress(address deployer, uint256 nonce) public pure returns (address) {
         // The integer zero is treated as an empty byte string, and as a result it only has a length prefix, 0x80, computed via 0x80 + 0.
         // A one byte integer uses its own value as its length prefix, there is no additional "0x80 + length" prefix that comes before it.
         if (nonce == 0x00)             return addressFromLast20Bytes(keccak256(abi.encodePacked(bytes1(0xd6), bytes1(0x94), deployer, bytes1(0x80))));
@@ -29,7 +29,7 @@ abstract contract Script is Cheats {
         return addressFromLast20Bytes(keccak256(abi.encodePacked(bytes1(0xda), bytes1(0x94), deployer, bytes1(0x84), uint32(nonce))));
     }
 
-    function addressFromLast20Bytes(bytes32 bytesValue) internal pure returns (address) {
+    function addressFromLast20Bytes(bytes32 bytesValue) public pure returns (address) {
         return address(uint160(uint256(bytesValue)));
     }
 }
